@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme.adapter
+package de.syntax_institut.chatwithme.adapter // ktlint-disable package-name
 
 import android.content.Context
 import android.content.Intent
@@ -51,8 +51,16 @@ class MessageAdapter(
             holder.cvMessage.alpha = 1f
         }
 
-        // Die CardView bekommt einen Long Click Listener, in dem ein Share Intent erstellt wird
+        // Die CardView bekommt einen onLong Click Listener, in dem ein Share Intent erstellt wird
         // BONUS
+        holder.cvMessage.setOnLongClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_TEXT, holder.tvText.text)
+            intent.type = "text/plain"
+            val shareIntent = Intent.createChooser(intent, null)
+            startActivity(context, shareIntent, null)
+            true
+        }
     }
 
     /**

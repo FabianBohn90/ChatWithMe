@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme.ui
+package de.syntax_institut.chatwithme.ui // ktlint-disable package-name
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import de.syntax_institut.chatwithme.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     // Hier wird das ViewModel, in dem die Logik stattfindet, eingebunden
-    // TODO
+    private val viewModel: SharedViewModel by activityViewModels()
 
     // Das binding für das QuizFragment wird deklariert
     private lateinit var binding: FragmentHomeBinding
@@ -38,6 +38,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Die RecyclerView bekommt den ContactAdapter zugewiesen
-        // TODO
+        binding.rvContacts.adapter = ContactAdapter(viewModel.contactList)
     }
 }

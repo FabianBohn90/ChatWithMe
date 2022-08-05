@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme.ui
+package de.syntax_institut.chatwithme.ui // ktlint-disable package-name
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,32 +27,44 @@ enum class DraftState {
 class SharedViewModel : ViewModel() {
 
     // Eine Instanz des Repository wird in einer Variablen gespeichert
-    // TODO
+    private val repository = Repository()
 
     // Die Liste aus Kontakten wird in einer verschachtelten Variable gespeichert
-    // TODO
+    private var _contactList = repository.contactList
+    val contactList: List<Contact>
+        get() = _contactList
 
     // Der aktuell ausgewählte Kontakt wird in einer verschachtelten Variable gespeichert
-    // TODO
+    private lateinit var _currentContact: Contact
+    val currentContact: Contact
+        get() = _currentContact
 
     // Der Zustand der Draft Message wird in einer verschachtelten Variable gespeichert
-    // TODO
+    private var _draftMessageState = MutableLiveData<DraftState>()
+    val draftMessageState: LiveData<DraftState>
+        get() = _draftMessageState
 
     // Der Eingabe Text wird in einer Variablen gespeichert
-    // TODO
+    val inputText = MutableLiveData<String>()
 
     /**
      * Diese Funktion initialisiert den Chat und setzt die Variablen dementsprechend
      */
     fun initializeChat(contactIndex: Int) {
-        // TODO
+        _currentContact = contactList[contactIndex]
+        inputText.value = ""
+        _draftMessageState.value = DraftState.DELETED
     }
 
     /**
      * Diese Funktion schließt den Chat und setzt die Variablen dementsprechend
      */
     fun closeChat() {
-        // TODO
+        if (_draftMessageState.value == DraftState.CREATED || _draftMessageState.value == DraftState.CHANGED
+        ) {
+            _currentContact.chatHistory.removeAt(0)
+        }
+        _draftMessageState.value = DraftState.DELETED
     }
 
     /**
@@ -60,7 +72,20 @@ class SharedViewModel : ViewModel() {
      * Sie verwaltet die chatHistory und den Draft Zustand dementsprechend
      */
     fun inputTextChanged(text: String) {
-        // TODO
+        if (_draftMessageState.value == DraftState.CREATED || _draftMessageState.value == DraftState.CHANGED) {
+            if (text != "") {
+                _currentContact.chatHistory[0].messageText = text
+                _draftMessageState.value = DraftState.CHANGED
+            } else {
+                _currentContact.chatHistory.removeAt(0)
+                _draftMessageState.value = DraftState.DELETED
+            }
+        } else {
+            if (text != "") {
+                _currentContact.chatHistory.add(0, Message(text, true))
+                _draftMessageState.value = DraftState.CREATED
+            }
+        }
     }
 
     /**
@@ -68,6 +93,8 @@ class SharedViewModel : ViewModel() {
      * indem die Variablen dementsprechend gesetzt werden
      */
     fun sendDraftMessage() {
-        // TODO
+        currentContact.chatHistory[0].isDraft = false
+        _draftMessageState.value = DraftState.SENT
+        inputText.value = ""
     }
 }

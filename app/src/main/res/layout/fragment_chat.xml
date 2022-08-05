@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <!-- TODO -->
+        <variable
+            name="ViewModel"
+            type="de.syntax_institut.chatwithme.ui.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/message"
                 android:maxLines="3"
-                android:text="TODO" />
+                android:text="@={ViewModel.inputText}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton

@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme.data
+package de.syntax_institut.chatwithme.data // ktlint-disable package-name
 
 import de.syntax_institut.chatwithme.R
 import de.syntax_institut.chatwithme.data.model.Contact
@@ -9,7 +9,7 @@ import de.syntax_institut.chatwithme.data.model.Contact
 class Repository {
 
     // Die Variable contactList ruft einmal die Funktion loadContacts() auf und speichert das Ergebnis
-    private val _contactList = loadContacts()
+    private var _contactList = loadContacts()
     val contactList: List<Contact>
         get() = _contactList
 

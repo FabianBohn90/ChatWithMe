@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme
+package de.syntax_institut.chatwithme // ktlint-disable package-name
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

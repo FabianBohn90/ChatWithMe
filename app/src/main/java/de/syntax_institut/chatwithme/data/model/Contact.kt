@@ -1,4 +1,4 @@
-package de.syntax_institut.chatwithme.data.model
+package de.syntax_institut.chatwithme.data.model // ktlint-disable package-name
 
 /**
  * Diese Data Klasse steht für einen einzelnen Kontakt im HomeFragment
